@@ -102,16 +102,46 @@ public class Manager {
     }
 // -----------------
     // UpdateInformation => Kiểm tra xem cháu nó có tồn tài hay ko => nếu có thì mới update
-public List<Product> updateInformation(String str){
-    List<Product> result = new ArrayList();
-    List<Product> productstoUpdate = searchProduct(str);
-    if(productstoUpdate == null || productstoUpdate.isEmpty()){
-        return null;
+public void updateInformation(String id){
+        String newName, newBrandId, newCateId;
+        int newModelYear;
+        double newListPrice;
+        if(checkIdExist(id) == false){
+            System.out.println("Can not find the product id");
+        } else {
+            for(Product product: listProduct){
+                if(product.getId() == id){
+                    do{
+                        System.out.println("Enter new name:");
+                        newName=sc.nextLine();
+                    }while(newName.isEmpty());
+                    product.setName(newName);
+
+                    do{
+                        System.out.println("Enter new CategoryId:");
+                        newCateId = sc.nextLine();
+                    }while (checkIdFromList("Category", newCateId)==false);
+                    product.setCategoryId(newCateId);
+
+                    do{
+                        System.out.println("Enter  new BrandId:");
+                        newBrandId = sc.nextLine();
+                    }while (checkIdFromList("Brand", newBrandId)==false);
+                    product.setBrandId(newBrandId);
+            
+                    do{
+                        System.out.println("Enter new Model Year:");
+                        newModelYear = Integer.parseInt(sc.nextLine()); 
+                    }while (newModelYear < 1900 || newModelYear > 2100);
+                    product.setModelYear(newModelYear);
+            
+                    do{
+                        System.out.println("Enter new List Price:");
+                        newListPrice = Double.parseDouble(sc.nextLine()); // Exception => try-catch
+                    }while (newListPrice > 0);
+                    product.setListPrice(newListPrice);
+
+                }
+            }
+        }
     }
-    for (Product tay : productstoUpdate){
-        tay.setName(tay.getName() + " - đã cập nhập");
-        result.add(tay);
-    }
-    return result;
-   }
-}
